@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>香港プチ旅行 - 旅のしおり</title>
     <style>
         /* --- 基本リセット & 共通変数 --- */
@@ -59,7 +59,7 @@
         .tab-btn {
             flex: 1;
             padding: 10px 1px;
-            font-size: 13px; 
+            font-size: 11px; /* ボタンが増えたため、文字サイズを少しだけ微調整 */
             font-weight: bold;
             background: none;
             border: none;
@@ -72,7 +72,7 @@
         .tab-btn.active {
             color: var(--white);
             border-bottom: 4px solid var(--accent-color);
-            font-size: 15px; 
+            font-size: 13px; 
         }
 
         /* --- 迷子・タクシー用カード --- */
@@ -249,6 +249,21 @@
             border-radius: 6px;
         }
 
+        /* メトロマップ用のスタイル */
+        .metro-map-container {
+            width: 100%;
+            overflow-x: auto; /* 横スクロールできるようにする */
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            background: #fff;
+            padding: 5px;
+        }
+        .metro-map-img {
+            width: 100%;
+            display: block;
+            height: auto;
+        }
+
         /* --- ボタン関係 --- */
         .btn-link {
             display: inline-flex;
@@ -323,7 +338,6 @@
 
 <div class="wrapper">
 
-    <!-- 日程切り替えタブ -->
     <nav class="tab-container">
         <button id="btn-day0" class="tab-btn active" onclick="switchDay(0)">📖<br>表紙</button>
         <button id="btn-day1" class="tab-btn" onclick="switchDay(1)">6/12<br>(金)</button>
@@ -331,21 +345,19 @@
         <button id="btn-day3" class="tab-btn" onclick="switchDay(3)">6/14<br>(日)</button>
         <button id="btn-day4" class="tab-btn" onclick="switchDay(4)">6/15<br>(月)</button>
         <button id="btn-day5" class="tab-btn" onclick="switchDay(5)" style="color:#C89D7C;">旅の<br>準備</button>
+        <button id="btn-day6" class="tab-btn" onclick="switchDay(6)" style="color:#2ecc71;">メトロ<br>マップ</button>
     </nav>
 
-    <!-- 迷子・タクシー用住所 -->
     <div class="emergency-card">
         <div class="emergency-title">🚕 迷子の時やタクシーではこれを指差し！</div>
         <strong class="emergency-desc">油麻地 城景國際 (The Cityview)</strong>
     </div>
 
-    <!-- ================= 表紙セクション ================= -->
     <div id="day0" class="cover-section active">
         <header class="cover">
             <div class="cover-sub">HONG KONG PETIT TRIP</div>
             <h1 class="cover-title">香港プチ旅行</h1>
             
-            <!-- 香港の華やかなイメージフォト -->
             <div class="cover-photo">
                 <img src="https://via.placeholder.com/600x350?text=イメージ：きらめく香港ビクトリアハーバーの夜景" alt="香港の景色">
             </div>
@@ -359,26 +371,34 @@
             </div>
         </header>
         
-        <!-- 表紙から1日目へ誘導するボタン -->
         <div style="padding: 0 15px 30px 15px;">
             <button class="btn-link btn-next-day" onclick="switchDay(1)" style="margin-top:10px;">香港プチ旅行へ出発！ (1日目へ) ▶</button>
         </div>
     </div>
 
-    <!-- ================= 1日目コンテンツ ================= -->
     <div id="day1" class="content-section">
         <h2 class="day-title">6月12日（金）到着日</h2>
         <div class="timeline">
+            
+            <div class="timeline-item">
+                <span class="time-badge">出発前</span>
+                <div class="event-card" style="border: 2px solid var(--accent-color); background-color: #FFFDF9;">
+                    <div class="event-title">✈️ 福岡空港</div>
+                    <div class="event-desc">
+                        <strong>●福岡空港</strong><br>
+                        <span style="color: #C62828; font-weight: bold;">⚠️ Wifi受け取りを忘れずに！</span>
+                    </div>
+                </div>
+            </div>
             
             <div class="timeline-item">
                 <span class="time-badge">15:35</span>
                 <div class="event-card">
                     <div class="event-title">✈️ 香港空港到着</div>
                     <div class="event-desc">
-                        セツコさんとヨッシーの二人旅がスタート！<br>エアポートエクスプレスで九龍（カオルーン）駅へ
-                    </div>
-                    <div class="photo-placeholder">
-                        <img src="https://via.placeholder.com/600x400?text=イメージ：香港国際空港の開放的なロビー" alt="香港国際空港">
+                        <strong>セツコさんとヨッシーの二人旅がスタート！</strong><br><br>到着ゲート → 下りエスカレータでAPM（地下鉄）へ<BR>
+                         終点 → エスカレータで上へ → 入国審査 → 荷物受取り<BR>いよいよ<BR>エアポートエクスプレス（機場快線）で九龍（カオルーン）駅へ<BR>
+                        <SMALL>乗車時にPi！としなくても降りる時にPi！とすればOK</SMALL>
                     </div>
                     <a href="https://www.rentio.jp/matome/2024/07/hongkong-airport-express-guide/" class="btn-link" target="_blank">エアポートエクスプレス乗車ガイド</a>
                 </div>
@@ -392,7 +412,7 @@
                         奥運駅（オリンピック）のミシュラン店「添好運」へ<br>チャーシューメロンパンや点心を軽く食べましょう！<br>奥運駅D3出口から徒歩3分です
                     </div>
                     <div class="photo-placeholder">
-                        <img src="https://via.placeholder.com/600x400?text=イメージ：名物チャーシューメロンパン" alt="添好運の点心">
+                        <img src="TINHOWAN.jpg" alt="添好運の点心">
                     </div>
                     <a href="https://retty.me/area/PRE999156/ARE1008/SUB100803/100001238388/" class="btn-link" target="_blank">添好運（Rettyグルメ情報）</a>
                 </div>
@@ -404,6 +424,9 @@
                     <div class="event-title">🏨 ホテルチェックイン後</div>
                     <div class="event-desc">
                         油麻地（ヨーマティ）・旺角（モンコック）を探検！<br>旺角には賑やかな「女人街」がありますよ。
+                    </div>
+                    <div class="photo-placeholder">
+                        <img src="nyonin.jpg" alt="女人街">
                     </div>
                 </div>
             </div>
@@ -434,7 +457,6 @@
         <button class="btn-link btn-next-day" onclick="switchDay(2)">明日のお楽しみは（2日目へ） ▶</button>
     </div>
 
-    <!-- ================= 2日目コンテンツ ================= -->
     <div id="day2" class="content-section">
         <h2 class="day-title">6月13日（土）</h2>
         <div class="timeline">
@@ -455,7 +477,7 @@
                         パワースポットで運気を上げよう！<br>緑のMTRで黄大仙駅まで6駅20分（B2出口徒歩3分）。<br>タクシーなら約10分。
                     </div>
                     <div class="photo-placeholder">
-                        <img src="https://via.placeholder.com/600x400?text=イメージ：色鮮やかな黄大仙の寺院" alt="黄大仙">
+                        <img src="houtaisen.jpg" alt="黄大仙">
                     </div>
                     <a href="https://www.discoverhongkong.com/jp/neighbourhoods/wong-tai-sin.html" class="btn-link" target="_blank">黄大仙 観光公式ガイド</a>
                 </div>
@@ -477,8 +499,9 @@
                         巨大ビル「香港工業中心」へ！<br>数百軒の洋服、靴、雑貨問屋がひしめき合っています。<br>たのし～～い！<br>C出口またはD2出口すぐ。
                     </div>
                     <div class="photo-placeholder">
-                        <img src="https://via.placeholder.com/600x400?text=イメージ：賑やかな服飾問屋街の様子" alt="荔枝角のお買い物">
+                        <img src="Lai-Chi-Kok.jpg" alt="荔枝角のお買い物">
                     </div>
+
                     <a href="https://www.girlstraveler.com/entry/2016/02/16/191700" class="btn-link" target="_blank">荔枝角ショッピングお役立ちブログ</a>
                 </div>
             </div>
@@ -490,6 +513,9 @@
                     <div class="event-desc">
                         太子（プリンス・エドワード）から尖沙咀まで約3.6kmの散策も楽しいエリア。<br>この周辺で晩御飯にしましょう。
                     </div>
+                    <div class="photo-placeholder">
+                        <img src="Nathan.jpg" alt="ネイザンロード">
+                    </div>
                     <a href="https://jp.trip.com/moments/theme/poi-nathan-rd-22847194-attraction-993137/" class="btn-link" target="_blank">ネイザンロード散策ガイド</a>
                 </div>
             </div>
@@ -498,6 +524,9 @@
                 <span class="time-badge">20:00</span>
                 <div class="event-card">
                     <div class="event-title">🌃 シンフォニー・オブ・ライツ</div>
+                    <div class="photo-placeholder">
+                        <img src="SoL.jpg" alt="シンフォニー・オブ・ライツ">
+                    </div>
                     <div class="event-desc">
                         尖沙咀で美しい光のショーを鑑賞。<br>終了後、油麻地までネイザンロードを逆ルートで散策するのもお勧めです。
                     </div>
@@ -509,7 +538,6 @@
         <button class="btn-link btn-next-day" onclick="switchDay(3)">明日のお楽しみは（3日目へ） ▶</button>
     </div>
 
-    <!-- ================= 3日目コンテンツ ================= -->
     <div id="day3" class="content-section">
         <h2 class="day-title">6月14日（日）</h2>
         <div class="timeline">
@@ -524,11 +552,15 @@
                         中環（セントラル）、上環（シェンワン）、<BR>湾仔（ワンチャイ）<br><br>
                         【リクエスト候補】<br>
                         ・中環のヒルサイドエスカレーター<br>
-                        ・ビクトリアピーク（乗るのにかなり並びます）<br>
+                        ・ピークトラム（乗るまでにかなり並びます）<br>
+                        ・ビクトリアピーク<br>
                         ・湾仔でショッピング！
                     </div>
                     <div class="photo-placeholder">
-                        <img src="https://via.placeholder.com/600x400?text=イメージ：香港島サイドのレトロな街並み" alt="香港島観光">
+                        <img src="tram.png" alt="ピークトラム">
+                    </div>
+                    <div class="photo-placeholder">
+                        <img src="Yakei.jpg" alt="ビクトリアピーク">
                     </div>
                     <a href="https://share.google/0pHlGBINM6zP8yE8g" class="btn-link" target="_blank">香港島ガイドマップ（Google共有リンク）</a>
                 </div>
@@ -539,7 +571,6 @@
         <button class="btn-link btn-next-day" onclick="switchDay(4)">明日の帰りを確認しましょう（最終日へ） ▶</button>
     </div>
 
-    <!-- ================= 4日目コンテンツ ================= -->
     <div id="day4" class="content-section">
         <h2 class="day-title">6月15日（月）最終日</h2>
         <div class="timeline">
@@ -565,7 +596,7 @@
                 <div class="event-card">
                     <div class="event-title">🛫 香港空港に到着</div>
                     <div class="event-desc">
-                        空港に約2時間滞在<br>出国後エリアでお買い物や最後の香港グルメ（雲吞麺、飲茶、ミルクティー）を<br>後悔のないように！
+                        空港に約2時間滞在<br>出国後エリアでお買い物や、最後の香港グルメ（雲吞麺、飲茶、ミルクティー）を<br>後悔のないように！
                     </div>
                     <div class="photo-placeholder">
                         <img src="https://via.placeholder.com/600x400?text=イメージ：最後の香港グルメ・海老雲吞麺" alt="香港雲吞麺">
@@ -581,10 +612,20 @@
                 </div>
             </div>
 
+            <div class="timeline-item">
+                <span class="time-badge">到着後</span>
+                <div class="event-card" style="border: 2px solid var(--accent-color); background-color: #FFFDF9;">
+                    <div class="event-title">🎒 日本到着</div>
+                    <div class="event-desc">
+                        <strong>●福岡空港</strong><br>
+                        <span style="color: #C62828; font-weight: bold;">⚠️ Wifiの返却を忘れずに！</span>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
-    <!-- ================= 5日目（旅の準備）コンテンツ ================= -->
     <div id="day5" class="content-section">
         <h2 class="day-title">🧳 旅のじゅんび・メモ</h2>
         <div class="event-card" style="margin-bottom: 15px;">
@@ -601,13 +642,25 @@
         <div class="event-card">
             <div class="event-title">旅の便利メモ</div>
             <div class="event-desc" style="font-size: 15px;">
-                <strong>現地の通貨　：</strong> １香港ドル（HKD）は20円50銭<br>
-                <strong>日本との時差：</strong> マイナス1時間（日本が12時→香港は11時）
+                <strong>現地の通貨 ：</strong><BR> １香港ドル（HKD）は20円50銭<br>
+                <strong>日本との時差：</strong><BR> マイナス1時間（日本が12時→香港は11時）
             </div>
         </div>
     </div>
 
-    <!-- フッター -->
+    <div id="day6" class="content-section">
+        <h2 class="day-title">🚇 香港 MTR 路線図</h2>
+        <div class="event-card" style="margin-bottom: 15px;">
+            <div class="event-title">MTR（地下鉄）路線マップ</div>
+            <p class="event-desc" style="font-size: 14px; margin-bottom: 10px; color: #666;">
+                ※マップを長押ししてスマホに保存したり、指で自由に拡大して見ることができます。
+            </p>
+            <div class="metro-map-container">
+                <img src="MetroMap.jpg" alt="香港 MTR 路線図" class="metro-map-img">
+            </div>
+        </div>
+    </div>
+
     <footer>
         <p style="font-size:15px; color:#666666; font-weight:bold;">🌸 セツコ・ヨッシー・カズミ 🌸<br>楽しい香港プチ旅行のしおり<br>
             <small style="font-size: 11px; font-weight: normal;">This document is produced by ヒーロ</small>
@@ -617,7 +670,6 @@
 
 </div>
 
-<!-- 表紙とスケジュールの表示を完全制御するJavaScript -->
 <script>
     function switchDay(dayNum) {
         // 1. まず「表紙」を含む、すべてのコンテンツセクションを一旦非表示にする
@@ -643,7 +695,7 @@
         } else {
             const targetSection = document.getElementById('day' + dayNum);
             if (targetSection) {
-                targetSection.classList.add('active');
+                targetSection.add ? targetSection.classList.add('active') : targetSection.classList.add('active');
             }
         }
         
