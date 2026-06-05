@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>香港プチ旅行 - 旅のしおり</title>
+    <style>
+        /* --- 基本リセット & 共通変数 --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+        :root {
+            --bg-color: #F9F6F0;       /* 上品なシャンパンベージュ */
+            --main-color: #1A2E40;     /* 深みのあるアジアンネイビー */
+            --accent-color: #C89D7C;   /* くすみローズゴールド */
+            --text-color: #2B2B2B;     /* 読みやすい墨色 */
+            --white: #FFFFFF;
+            --shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding-top: 75px; /* 上部固定ナビのスペースを確保 */
+            padding-bottom: 60px;
+        }
+
+        /* --- ラッパー（スマホ画面を広く使うよう横幅を拡張） --- */
+        .wrapper {
+            max-width: 480px; 
+            margin: 0 auto;
+            background-color: var(--white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- 日程切り替えタブ（画面最上部に固定してバグを完全解消） --- */
+        .tab-container {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            background-color: var(--main-color); /* 高級感のあるネイビー固定に変更 */
+            z-index: 9999;
+            display: flex;
+            padding: 8px 5px 4px 5px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 10px 2px;
+            font-size: 14px; /* 文字を少し大きく */
+            font-weight: bold;
+            background: none;
+            border: none;
+            color: #A0B0C0;
+            cursor: pointer;
+            border-bottom: 4px solid transparent;
+            text-align: center;
+            touch-action: manipulation; 
+        }
+        .tab-btn.active {
+            color: var(--white);
+            border-bottom: 4px solid var(--accent-color);
+            font-size: 16px; /* アクティブ時をさらに大きく */
+        }
+
+        /* --- 迷子・タクシー用カード --- */
+        .emergency-card {
+            background: #FFF5F5;
+            border-bottom: 2px solid #E57373;
+            padding: 12px 15px;
+            color: #C62828;
+            text-align: center;
+        }
+        .emergency-title {
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        .emergency-desc {
+            font-size: 19px; /* 文字を大きく */
+            background: #FFFFFF;
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px dashed #E57373;
+            font-weight: bold;
+            letter-spacing: 0.05em;
+            display: block;
+        }
+
+        /* --- 表紙ページ（華やかさと文字の大きさを両立） --- */
+        .cover {
+            background: linear-gradient(135deg, #1A2E40 0%, #0D1B2A 100%);
+            color: var(--white);
+            text-align: center;
+            padding: 25px 20px;
+            margin: 15px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+        .cover-sub {
+            font-size: 22px; /* 大きくかわいく */
+            font-weight: bold;
+            letter-spacing: 0.08em;
+            color: var(--accent-color);
+            font-family: 'Arial Rounded MT Bold', 'Helvetica Neue', sans-serif;
+            margin-bottom: 4px;
+        }
+        .cover-title {
+            font-size: 28px; /* 大きく */
+            font-weight: 700;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--accent-color);
+            display: inline-block;
+            padding-bottom: 4px;
+        }
+        
+        /* 表紙に入れる香港のイメージフォト */
+        .cover-photo {
+            width: 100%;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        .cover-photo img {
+            width: 100%;
+            display: block;
+        }
+
+        .cover-meta {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 14px;
+            font-size: 16px; /* 文字を大きく */
+            text-align: left;
+        }
+        .cover-meta p {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .cover-meta p:last-child { margin-bottom: 0; }
+        .cover-meta .label {
+            font-weight: bold;
+            color: var(--accent-color);
+            width: 85px;
+            flex-shrink: 0;
+        }
+
+        /* --- スケジュールコンテンツ --- */
+        .content-section {
+            display: none; 
+            padding: 20px 15px;
+        }
+        .content-section.active {
+            display: block; 
+        }
+
+        .day-title {
+            font-size: 22px; /* 大きく */
+            color: var(--main-color);
+            border-left: 6px solid var(--accent-color);
+            padding-left: 10px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        /* タイムライン */
+        .timeline {
+            position: relative;
+            padding-left: 15px;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 10px;
+            bottom: 10px;
+            width: 2px;
+            background-color: var(--accent-color);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -14px;
+            top: 8px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--main-color);
+            border: 2px solid var(--white);
+        }
+        .time-badge {
+            font-size: 19px; /* 大きく */
+            font-weight: bold;
+            color: var(--main-color);
+            display: block;
+            margin-bottom: 4px;
+        }
+        .event-card {
+            background-color: var(--bg-color);
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: var(--shadow);
+        }
+        .event-title {
+            font-size: 18px; /* 大きく */
+            font-weight: bold;
+            margin-bottom: 6px;
+            color: #000000;
+        }
+        .event-desc {
+            font-size: 16px; /* 全体的に文字を大きく */
+            color: #333333;
+        }
+
+        /* --- 写真プレースホルダー --- */
+        .photo-placeholder {
+            margin: 12px 0;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .photo-placeholder img {
+            width: 100%;
+            display: block;
+            border-radius: 6px;
+        }
+
+        /* --- ボタン関係（さらに大きくタップしやすく） --- */
+        .btn-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--main-color);
+            color: var(--white) !important;
+            text-decoration: none;
+            padding: 14px; /* パディングを増やしてタップしやすく */
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 8px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            touch-action: manipulation;
+        }
+        
+        /* 翌日へのご案内ボタン */
+        .btn-next-day {
+            background-color: #EADBC8;
+            color: var(--main-color) !important;
+            border: 1px solid var(--accent-color);
+            margin-top: 30px;
+            font-size: 17px;
+            padding: 16px;
+        }
+
+        .inline-link {
+            color: var(--main-color);
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        .memo-box {
+            background-color: #FFFDE7;
+            border-left: 4px solid #FFF59D;
+            padding: 12px;
+            border-radius: 4px;
+            margin-top: 6px;
+            font-size: 15px;
+        }
+
+        .checklist {
+            list-style: none;
+            padding: 5px;
+        }
+        .checklist li {
+            margin-bottom: 12px;
+            font-size: 17px;
+            display: flex;
+            align-items: center;
+        }
+        .checklist input[type="checkbox"] {
+            width: 24px; /* チェックボックスを大きく */
+            height: 24px;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        /* --- フッター --- */
+        footer {
+            text-align: center;
+            padding: 30px 15px;
+            background-color: var(--bg-color);
+            margin-top: auto; 
+        }
+        .secret-phrase {
+            font-size: 10px; 
+            color: #A0A0A0; 
+            letter-spacing: 0.05em;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+
+    <!-- 日程切り替えタブ（バグ回避のため画面の一番上に常に固定） -->
+    <nav class="tab-container">
+        <button id="btn-day1" class="tab-btn active" onclick="switchDay(1)">6/12<br>(金)</button>
+        <button id="btn-day2" class="tab-btn" onclick="switchDay(2)">6/13<br>(土)</button>
+        <button id="btn-day3" class="tab-btn" onclick="switchDay(3)">6/14<br>(日)</button>
+        <button id="btn-day4" class="tab-btn" onclick="switchDay(4)">6/15<br>(月)</button>
+        <button id="btn-day5" class="tab-btn" onclick="switchDay(5)" style="color:#C89D7C;">旅の<br>準備</button>
+    </nav>
+
+    <!-- 迷子・タクシー用住所 -->
+    <div class="emergency-card">
+        <div class="emergency-title">🚕 迷子やタクシーではこれを指差し！</div>
+        <strong class="emergency-desc">油麻地 城景國際 (The Cityview)</strong>
+    </div>
+
+    <!-- 表紙ページ（横幅を広げ、イメージフォトを追加して華やかに） -->
+    <header class="cover">
+        <div class="cover-sub">HONG KONG PETIT TRIP</div>
+        <h1 class="cover-title">香港プチ旅行</h1>
+        
+        <!-- 追加した香港イメージフォト -->
+        <div class="cover-photo">
+            <img src="https://via.placeholder.com/600x350?text=イメージ：きらめく香港ビクトリアハーバーの夜景" alt="香港の景色">
+        </div>
+        
+        <div class="cover-meta">
+            <p><span class="label">日付：</span><span>自 令和8年6月12日 〜 至 同15日</span></p>
+            <p><span class="label">たびびと：</span>
+                <span style="flex:1;">内田 節子（セツコ） / 濱﨑 芳江（ヨッシー）<br>矢田 和美（カズミ）</span>
+            </p>
+            <p><span class="label">宿泊先：</span><span>CityView Hotel（城景國際 / The Cityview）</span></p>
+        </div>
+    </header>
+
+    <!-- ================= 1日目コンテンツ ================= -->
+    <div id="day1" class="content-section active">
+        <h2 class="day-title">6月12日（金）到着日</h2>
+        <div class="timeline">
+            
+            <div class="timeline-item">
+                <span class="time-badge">15:35</span>
+                <div class="event-card">
+                    <div class="event-title">✈️ 香港空港到着</div>
+                    <div class="event-desc">
+                        セツコさんとヨッシーさんの二人旅がスタート！エアポートエクスプレスで九龍（カウルーン）駅へ。
+                    </div>
+                    <div class="photo-placeholder">
+                        <img src="https://via.placeholder.com/600x400?text=イメージ：香港国際空港の開放的なロビー" alt="香港国際空港">
+                    </div>
+                    <a href="https://www.rentio.jp/matome/2024/07/hongkong-airport-express-guide/" class="btn-link" target="_blank">エアポートエクスプレス乗車ガイド</a>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <span class="time-badge">16:30</span>
+                <div class="event-card">
+                    <div class="event-title">🤝 九龍駅でカズミさまと合合流！</div>
+                    <div class="event-desc">
+                        3人合流！奥運駅（オリンピック）D3出口から徒歩3分の「添好運」へ。チャーシューメロンパンや点心を軽く食べましょう！
+                    </div>
+                    <div class="photo-placeholder">
+                        <img src="https://via.placeholder.com/600x400?text=イメージ：名物チャーシューメロンパン" alt="添好運の点心">
+                    </div>
+                    <a href="https://retty.me/area/PRE999156/ARE1008/SUB100803/100001238388/" class="btn-link" target="_blank">添好運（Rettyグルメ情報）</a>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <span class="time-badge">18:00頃</span>
+                <div class="event-card">
+                    <div class="event-title">🏨 ホテルチェックイン</div>
+                    <div class="event-desc">
+                        油麻地（ヨーマティ）・旺角（モンコック）を探検！旺角には賑やかな「女人街」があります。
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <span class="time-badge">20:15</span>
+                <div class="event-card">
+                    <div class="event-title">🐟 晩御飯：千海水産</div>
+                    <div class="event-desc">
+                        旺角東駅にあるモコモールの中の「千海水産」へ移動します。
+                    </div>
+                    <a href="https://www.instagram.com/reel/DS0_UO4AaaV/?igsh=MWJmYmkyNzdsM3lsOQ%3D%3D" class="btn-link" target="_blank">千海水産の紹介動画（Instagram）</a>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <span class="time-badge">22:00頃</span>
+                <div class="event-card">
+                    <div class="event-title">🌙 ホテルへ帰着</div>
+                    <div class="event-desc">
+                        油麻地 City View Hotel（城景國際）でゆっくり休みましょう。
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        
+        <!-- 明日のお楽しみボタン -->
+        <button class="btn-link btn-next-day" onclick="switchDay(2)">明日のお楽しみは（2日目へ） ▶</button>
+    </div>
+
+    <!-- ================= 2日目コンテンツ ================= -->
+    <div id="day2" class="content-section">
+        <h2 class="day-title">6月13日（土）</h2>
+        <div class="timeline">
+            
+            <div class="timeline-item">
+                <span class="time-badge">朝ごはん</span>
+                <div class="event-card">
+                    <div class="event-title">🥣 朝粥</div>
+                    <div class="event-desc">どこかで美味しい朝粥を食べましょう。</div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <span class="time-badge">午前</span>
+                <div class="event-card">
+                    <div class="event-title">⛩️ 黄大仙（ウォンタイシン）</div>
+                    <div class="event-desc">
+                        パワースポットで運気を上げよう！緑のMTRで黄大仙駅まで6駅20分（B2出口徒歩3分）。タクシーなら約10分。
+                    </div>
+                    <div class="photo-placeholder">
+                        <img src="https://via.placeholder.com/600x400?text=イメージ：色鮮やかな黄大仙の寺院" alt="黄大仙">
+                    </div>
+                    <a href="https://www.discoverhongkong.com/jp/neighbourhoods/wong-tai-sin.html" class="btn-link" target="_blank">黄大仙 観光公式ガイド</a>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <span class="time-badge">お昼ごはん</span>
+                <div class="event-card">
+                    <div class="event-title">🥢 ランチ</div>
+                    <div class="event-desc">美味しい香港グルメを堪能。</div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <span class="time-badge">午後</span>
+                <div class="event-card">
+                    <div class="event-title">🛍️ 荔枝角（ライチッコク）でお買い物！</div>
+                    <div class="event-desc">
+                        巨大ビル「香港工業中心」へ！数百軒の洋服、靴、雑貨の問屋がひしめき合っています。たのし～～い！<br>MTR荔枝角駅のC出口またはD2出口すぐ。
+                    </div>
+                    <div class="photo-placeholder">
+                        <img src="https://via.placeholder.com/600x400?text=イメージ：賑やかな服飾問屋街の様子" alt="荔枝角のお買い物">
+                    </div>
+                    <a href="https://www.girlstraveler.com/entry/2016/02/16/191700" class="btn-link" target="_blank">荔枝角ショッピングお役立ちブログ</a>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <span class="time-badge">晩御飯</span>
+                <div class="event-card">
+                    <div class="event-title">✨ 彌敦道（ネイザンロード）散策</div>
+                    <div class="event-desc">
+                        太子から尖沙咀まで約3.6kmの散策も楽しいエリア。この周辺で晩御飯にしましょう。
+                    </div>
+                    <a href="https://jp.trip.com/moments/theme/poi-nathan-rd-22847194-attraction-993137/" class="btn-link" target="_blank">ネイザンロード散策ガイド</a>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <span class="time-badge">20:00</span>
+                <div class="event-card">
+                    <div class="event-title">🌃 シンフォニー・オブ・ライツ</div>
+                    <div class="event-desc">
+                        尖沙咀で美しい光のショーを鑑賞。終了後、油麻地までネイザンロードを逆ルートで散策するのもお勧めです。
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        
+        <!-- 明日のお楽しみボタン -->
+        <button class="btn-link btn-next-day" onclick="switchDay(3)">明日のお楽しみは（3日目へ） ▶</button>
+    </div>
+
+    <!-- ================= 3日目コンテンツ ================= -->
+    <div id="day3" class="content-section">
+        <h2 class="day-title">6月14日（日）</h2>
+        <div class="timeline">
+            
+            <div class="timeline-item">
+                <span class="time-badge">終日</span>
+                <div class="event-card">
+                    <div class="event-title">🗺️ レオさん＆スキちゃんガイドと香港島ツアー</div>
+                    <div class="event-desc">
+                        ご友人のガイドで香港島サイドを満喫！<br><br>
+                        【覚えたい地名】中環（セントラル）、上環（シェンワン）、湾仔（ワンチャイ）<br><br>
+                        【リクエスト候補】<br>
+                        ・映画『慕情』の舞台「浅水湾（レパルスベイ）」<br>
+                        ・中環のヒルサイドエスカレーター<br>
+                        ・ビクトリアピーク（ピークトラムは待ち時間があるかも）<br>
+                        ・湾仔でショッピング！
+                    </div>
+                    <div class="photo-placeholder">
+                        <img src="https://via.placeholder.com/600x400?text=イメージ：香港島サイドのレトロな街並み" alt="香港島観光">
+                    </div>
+                    <a href="https://share.google/0pHlGBINM6zP8yE8g" class="btn-link" target="_blank">香港島ガイドマップ（Google共有リンク）</a>
+                </div>
+            </div>
+
+        </div>
+        
+        <!-- 明日の帰りを確認しましょうボタン -->
+        <button class="btn-link btn-next-day" onclick="switchDay(4)">明日の帰りを確認しましょう（最終日へ） ▶</button>
+    </div>
+
+    <!-- ================= 4日目コンテンツ ================= -->
+    <div id="day4" class="content-section">
+        <h2 class="day-title">6月15日（月）最終日</h2>
+        <div class="timeline">
+            
+            <div class="timeline-item">
+                <span class="time-badge">朝</span>
+                <div class="event-card">
+                    <div class="event-title">🥐 朝食</div>
+                    <div class="event-desc">近くで食事かパンを買ってきてホテルで食べましょう。</div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <span class="time-badge">09:30</span>
+                <div class="event-card">
+                    <div class="event-title">🚕 出発</div>
+                    <div class="event-desc">タクシーチャーターで空港へ向かいます。</div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <span class="time-badge">10:15頃</span>
+                <div class="event-card">
+                    <div class="event-title">🛫 香港空港に到着</div>
+                    <div class="event-desc">
+                        空港に約2時間滞在。出国後エリアでお買い物や、最後の香港グルメ（雲吞麺、飲茶、ミルクティー）を。展望エリアでのんびり休憩しましょう。
+                    </div>
+                    <div class="photo-placeholder">
+                        <img src="https://via.placeholder.com/600x400?text=イメージ：最後の香港グルメ・海老雲吞麺" alt="香港雲吞麺">
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <span class="time-badge">帰国</span>
+                <div class="event-card">
+                    <div class="event-title">💝 お疲れ様でした！</div>
+                    <div class="event-desc">楽しかった旅の思い出と一緒に日本へ。</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ================= 5日目（旅の準備）コンテンツ ================= -->
+    <div id="day5" class="content-section">
+        <h2 class="day-title">🧳 旅のじゅんび・メモ</h2>
+        <div class="event-card" style="margin-bottom: 15px;">
+            <div class="event-title">持ち物チェックリスト</div>
+            <ul class="checklist">
+                <li><input type="checkbox"> パスポート（有効期限大丈夫？）</li>
+                <li><input type="checkbox"> スマホ・充電器・モバイルバッテリー</li>
+                <li><input type="checkbox"> 香港用変換プラグ（BFタイプ）</li>
+                <li><input type="checkbox"> 常備薬・胃腸薬（食べ過ぎ対策！）</li>
+                <li><input type="checkbox"> 羽織るもの（香港の室内は冷房強めです）</li>
+                <li><input type="checkbox"> クレジットカード・日本円</li>
+            </ul>
+        </div>
+        <div class="event-card">
+            <div class="event-title">旅の便利メモ</div>
+            <div class="event-desc" style="font-size: 15px;">
+                <strong>現地の通貨：</strong> 香港ドル（HKD）<br>
+                <strong>日本との時差：</strong> マイナス1時間（日本が12時のとき香港は11時）
+            </div>
+        </div>
+    </div>
+
+    <!-- フッター -->
+    <footer>
+        <p style="font-size:15px; color:#666666; font-weight:bold;">🌸 セツコ・ヨッシー・カズミ 🌸<br>楽しい香港プチ旅行のしおり</p>
+        <div class="secret-phrase">70歳が空を飛ぶ、地を車う</div>
+    </footer>
+
+</div>
+
+<!-- タブ切り替えJavaScript（スマホで絶対に狂わない新ロジック） -->
+<script>
+    function switchDay(dayNum) {
+        // 1. すべての予定セクションを一旦非表示にする
+        const sections = document.querySelectorAll('.content-section');
+        sections.forEach(function(sec) {
+            sec.classList.remove('active');
+        });
+
+        // 2. すべてのタブボタンのアクティブ状態を一旦解除する
+        const tabs = document.querySelectorAll('.tab-btn');
+        tabs.forEach(function(tab) {
+            tab.classList.remove('active');
+        });
+
+        // 3. 選択された日のセクションを表示する
+        const targetSection = document.getElementById('day' + dayNum);
+        if (targetSection) {
+            targetSection.classList.add('active');
+        }
+        
+        // 4. 選択されたタブボタンをアクティブにする
+        const activeTabButton = document.getElementById('btn-day' + dayNum);
+        if (activeTabButton) {
+            activeTabButton.classList.add('active');
+        }
+
+        // 5. 画面のスクロール位置を最上部にスムーズに戻す
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
+</script>
+
+</body>
+</html>
