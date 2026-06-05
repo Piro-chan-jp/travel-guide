@@ -26,11 +26,11 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             line-height: 1.6;
-            padding-top: 75px; /* 上部固定ナビのスペースを確保 */
+            padding-top: 75px; /* 上部固定ナビのスペース */
             padding-bottom: 60px;
         }
 
-        /* --- ラッパー（スマホ画面を広く使うよう横幅を拡張） --- */
+        /* --- ラッパー（スマホ画面を広く使うレイアウト） --- */
         .wrapper {
             max-width: 480px; 
             margin: 0 auto;
@@ -40,7 +40,7 @@
             flex-direction: column;
         }
 
-        /* --- 日程切り替えタブ（画面最上部に固定してバグを完全解消） --- */
+        /* --- 日程切り替えタブ（画面最上部に完全固定・Good Jobをいただいたパーツ） --- */
         .tab-container {
             position: fixed;
             top: 0;
@@ -48,16 +48,16 @@
             transform: translateX(-50%);
             width: 100%;
             max-width: 480px;
-            background-color: var(--main-color); /* 高級感のあるネイビー固定に変更 */
+            background-color: var(--main-color);
             z-index: 9999;
             display: flex;
-            padding: 8px 5px 4px 5px;
+            padding: 8px 3px 4px 3px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
         .tab-btn {
             flex: 1;
-            padding: 10px 2px;
-            font-size: 14px; /* 文字を少し大きく */
+            padding: 10px 1px;
+            font-size: 13px; 
             font-weight: bold;
             background: none;
             border: none;
@@ -70,10 +70,10 @@
         .tab-btn.active {
             color: var(--white);
             border-bottom: 4px solid var(--accent-color);
-            font-size: 16px; /* アクティブ時をさらに大きく */
+            font-size: 15px; 
         }
 
-        /* --- 迷子・タクシー用カード --- */
+        /* --- 迷子・タクシー用カード（スケジュール移動時も上部にわかりやすく配置） --- */
         .emergency-card {
             background: #FFF5F5;
             border-bottom: 2px solid #E57373;
@@ -87,7 +87,7 @@
             margin-bottom: 4px;
         }
         .emergency-desc {
-            font-size: 19px; /* 文字を大きく */
+            font-size: 19px; 
             background: #FFFFFF;
             padding: 8px;
             border-radius: 6px;
@@ -97,7 +97,14 @@
             display: block;
         }
 
-        /* --- 表紙ページ（華やかさと文字の大きさを両立） --- */
+        /* --- 表紙ページ（初期表示はアクティブ、他ページでは完全に消える設計） --- */
+        .cover-section {
+            display: none; /* 初期はJSでコントロール */
+        }
+        .cover-section.active {
+            display: block;
+        }
+        
         .cover {
             background: linear-gradient(135deg, #1A2E40 0%, #0D1B2A 100%);
             color: var(--white);
@@ -108,7 +115,7 @@
             box-shadow: var(--shadow);
         }
         .cover-sub {
-            font-size: 22px; /* 大きくかわいく */
+            font-size: 22px; 
             font-weight: bold;
             letter-spacing: 0.08em;
             color: var(--accent-color);
@@ -116,7 +123,7 @@
             margin-bottom: 4px;
         }
         .cover-title {
-            font-size: 28px; /* 大きく */
+            font-size: 28px; 
             font-weight: 700;
             margin-bottom: 15px;
             border-bottom: 2px solid var(--accent-color);
@@ -124,7 +131,7 @@
             padding-bottom: 4px;
         }
         
-        /* 表紙に入れる香港のイメージフォト */
+        /* 香港のイメージフォト */
         .cover-photo {
             width: 100%;
             margin-bottom: 15px;
@@ -141,7 +148,7 @@
             background: rgba(255, 255, 255, 0.08);
             border-radius: 8px;
             padding: 14px;
-            font-size: 16px; /* 文字を大きく */
+            font-size: 16px; 
             text-align: left;
         }
         .cover-meta p {
@@ -157,7 +164,7 @@
             flex-shrink: 0;
         }
 
-        /* --- スケジュールコンテンツ --- */
+        /* --- 各日のスケジュールコンテンツ --- */
         .content-section {
             display: none; 
             padding: 20px 15px;
@@ -167,7 +174,7 @@
         }
 
         .day-title {
-            font-size: 22px; /* 大きく */
+            font-size: 22px; 
             color: var(--main-color);
             border-left: 6px solid var(--accent-color);
             padding-left: 10px;
@@ -205,7 +212,7 @@
             border: 2px solid var(--white);
         }
         .time-badge {
-            font-size: 19px; /* 大きく */
+            font-size: 19px; 
             font-weight: bold;
             color: var(--main-color);
             display: block;
@@ -218,13 +225,13 @@
             box-shadow: var(--shadow);
         }
         .event-title {
-            font-size: 18px; /* 大きく */
+            font-size: 18px; 
             font-weight: bold;
             margin-bottom: 6px;
             color: #000000;
         }
         .event-desc {
-            font-size: 16px; /* 全体的に文字を大きく */
+            font-size: 16px; 
             color: #333333;
         }
 
@@ -240,7 +247,7 @@
             border-radius: 6px;
         }
 
-        /* --- ボタン関係（さらに大きくタップしやすく） --- */
+        /* --- ボタン関係 --- */
         .btn-link {
             display: inline-flex;
             align-items: center;
@@ -248,7 +255,7 @@
             background-color: var(--main-color);
             color: var(--white) !important;
             text-decoration: none;
-            padding: 14px; /* パディングを増やしてタップしやすく */
+            padding: 14px; 
             border-radius: 8px;
             font-size: 16px;
             font-weight: bold;
@@ -269,21 +276,6 @@
             padding: 16px;
         }
 
-        .inline-link {
-            color: var(--main-color);
-            font-weight: bold;
-            text-decoration: underline;
-        }
-
-        .memo-box {
-            background-color: #FFFDE7;
-            border-left: 4px solid #FFF59D;
-            padding: 12px;
-            border-radius: 4px;
-            margin-top: 6px;
-            font-size: 15px;
-        }
-
         .checklist {
             list-style: none;
             padding: 5px;
@@ -295,7 +287,7 @@
             align-items: center;
         }
         .checklist input[type="checkbox"] {
-            width: 24px; /* チェックボックスを大きく */
+            width: 24px; 
             height: 24px;
             margin-right: 12px;
             flex-shrink: 0;
@@ -320,9 +312,10 @@
 
 <div class="wrapper">
 
-    <!-- 日程切り替えタブ（バグ回避のため画面の一番上に常に固定） -->
+    <!-- 日程切り替えタブ（一番左に「表紙」を追加しました） -->
     <nav class="tab-container">
-        <button id="btn-day1" class="tab-btn active" onclick="switchDay(1)">6/12<br>(金)</button>
+        <button id="btn-day0" class="tab-btn active" onclick="switchDay(0)">📖<br>表紙</button>
+        <button id="btn-day1" class="tab-btn" onclick="switchDay(1)">6/12<br>(金)</button>
         <button id="btn-day2" class="tab-btn" onclick="switchDay(2)">6/13<br>(土)</button>
         <button id="btn-day3" class="tab-btn" onclick="switchDay(3)">6/14<br>(日)</button>
         <button id="btn-day4" class="tab-btn" onclick="switchDay(4)">6/15<br>(月)</button>
@@ -335,27 +328,34 @@
         <strong class="emergency-desc">油麻地 城景國際 (The Cityview)</strong>
     </div>
 
-    <!-- 表紙ページ（横幅を広げ、イメージフォトを追加して華やかに） -->
-    <header class="cover">
-        <div class="cover-sub">HONG KONG PETIT TRIP</div>
-        <h1 class="cover-title">香港プチ旅行</h1>
+    <!-- ================= 表紙セクション（独立ページ化） ================= -->
+    <div id="day0" class="cover-section active">
+        <header class="cover">
+            <div class="cover-sub">HONG KONG PETIT TRIP</div>
+            <h1 class="cover-title">香港プチ旅行</h1>
+            
+            <!-- 香港の華やかなイメージフォト -->
+            <div class="cover-photo">
+                <img src="https://via.placeholder.com/600x350?text=イメージ：きらめく香港ビクトリアハーバーの夜景" alt="香港の景色">
+            </div>
+            
+            <div class="cover-meta">
+                <p><span class="label">日付：</span><span>自 令和8年6月12日 〜 至 同15日</span></p>
+                <p><span class="label">たびびと：</span>
+                    <span style="flex:1;">内田 節子（セツコ）<br>濱﨑 芳江（ヨッシー）<br>矢田 和美（カズミ）</span>
+                </p>
+                <p><span class="label">宿泊先：</span><span>CityView Hotel（城景國際 / The Cityview）</span></p>
+            </div>
+        </header>
         
-        <!-- 追加した香港イメージフォト -->
-        <div class="cover-photo">
-            <img src="https://via.placeholder.com/600x350?text=イメージ：きらめく香港ビクトリアハーバーの夜景" alt="香港の景色">
+        <!-- 表紙から1日目へ誘導するワクワクボタン -->
+        <div style="padding: 0 15px 30px 15px;">
+            <button class="btn-link btn-next-day" onclick="switchDay(1)" style="margin-top:10px;">香港プチ旅行へ出発！ (1日目へ) ▶</button>
         </div>
-        
-        <div class="cover-meta">
-            <p><span class="label">日付：</span><span>自 令和8年6月12日 〜 至 同15日</span></p>
-            <p><span class="label">たびびと：</span>
-                <span style="flex:1;">内田 節子（セツコ） / 濱﨑 芳江（ヨッシー）<br>矢田 和美（カズミ）</span>
-            </p>
-            <p><span class="label">宿泊先：</span><span>CityView Hotel（城景國際 / The Cityview）</span></p>
-        </div>
-    </header>
+    </div>
 
     <!-- ================= 1日目コンテンツ ================= -->
-    <div id="day1" class="content-section active">
+    <div id="day1" class="content-section">
         <h2 class="day-title">6月12日（金）到着日</h2>
         <div class="timeline">
             
@@ -364,7 +364,7 @@
                 <div class="event-card">
                     <div class="event-title">✈️ 香港空港到着</div>
                     <div class="event-desc">
-                        セツコさんとヨッシーさんの二人旅がスタート！エアポートエクスプレスで九龍（カウルーン）駅へ。
+                        セツコさんとヨッシーの二人旅がスタート！エアポートエクスプレスで九龍（カウルーン）駅へ。
                     </div>
                     <div class="photo-placeholder">
                         <img src="https://via.placeholder.com/600x400?text=イメージ：香港国際空港の開放的なロビー" alt="香港国際空港">
@@ -376,7 +376,7 @@
             <div class="timeline-item">
                 <span class="time-badge">16:30</span>
                 <div class="event-card">
-                    <div class="event-title">🤝 九龍駅でカズミさまと合合流！</div>
+                    <div class="event-title">🤝 九龍駅でカズミさまと合流！</div>
                     <div class="event-desc">
                         3人合流！奥運駅（オリンピック）D3出口から徒歩3分の「添好運」へ。チャーシューメロンパンや点心を軽く食べましょう！
                     </div>
@@ -420,7 +420,6 @@
 
         </div>
         
-        <!-- 明日のお楽しみボタン -->
         <button class="btn-link btn-next-day" onclick="switchDay(2)">明日のお楽しみは（2日目へ） ▶</button>
     </div>
 
@@ -496,7 +495,6 @@
 
         </div>
         
-        <!-- 明日のお楽しみボタン -->
         <button class="btn-link btn-next-day" onclick="switchDay(3)">明日のお楽しみは（3日目へ） ▶</button>
     </div>
 
@@ -527,7 +525,6 @@
 
         </div>
         
-        <!-- 明日の帰りを確認しましょうボタン -->
         <button class="btn-link btn-next-day" onclick="switchDay(4)">明日の帰りを確認しましょう（最終日へ） ▶</button>
     </div>
 
@@ -601,16 +598,23 @@
 
     <!-- フッター -->
     <footer>
-        <p style="font-size:15px; color:#666666; font-weight:bold;">🌸 セツコ・ヨッシー・カズミ 🌸<br>楽しい香港プチ旅行のしおり</p>
-        <div class="secret-phrase">70歳が空を飛ぶ、地を車う</div>
+        <p style="font-size:15px; color:#666666; font-weight:bold;">🌸 セツコ・ヨッシー・カズミ 🌸<br>楽しい香港プチ旅行のしおり<br>Produced by ヒーロ</p>
+        <div class="secret-phrase">70歳が空を飛ぶ、地を這う</div>
     </footer>
 
 </div>
 
-<!-- タブ切り替えJavaScript（スマホで絶対に狂わない新ロジック） -->
+<!-- 表紙とスケジュールの表示を完全制御する新JavaScript -->
 <script>
     function switchDay(dayNum) {
-        // 1. すべての予定セクションを一旦非表示にする
+        // 1. まず「表紙」を含む、すべてのコンテンツセクションを一旦非表示（非アクティブ）にする
+        // 表紙(day0)
+        const coverSec = document.getElementById('day0');
+        if (coverSec) {
+            coverSec.classList.remove('active');
+        }
+        
+        // 各日程のスケジュール(day1〜5)
         const sections = document.querySelectorAll('.content-section');
         sections.forEach(function(sec) {
             sec.classList.remove('active');
@@ -622,19 +626,25 @@
             tab.classList.remove('active');
         });
 
-        // 3. 選択された日のセクションを表示する
-        const targetSection = document.getElementById('day' + dayNum);
-        if (targetSection) {
-            targetSection.classList.add('active');
+        // 3. 選ばれた番号に応じて、表紙かスケジュールを表示する
+        if (dayNum === 0) {
+            // 表紙が選ばれた場合
+            if (coverSec) coverSec.classList.add('active');
+        } else {
+            // 各日程が選ばれた場合
+            const targetSection = document.getElementById('day' + dayNum);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
         }
         
-        // 4. 選択されたタブボタンをアクティブにする
+        // 4. 選択されたタブボタンに「現在地」の光をともす
         const activeTabButton = document.getElementById('btn-day' + dayNum);
         if (activeTabButton) {
             activeTabButton.classList.add('active');
         }
 
-        // 5. 画面のスクロール位置を最上部にスムーズに戻す
+        // 5. 画面のスクロール位置を最上部にスムーズに戻す（切り替わった感がはっきりわかります！）
         window.scrollTo({
             top: 0,
             behavior: 'smooth'
